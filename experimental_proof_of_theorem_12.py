@@ -33,4 +33,3 @@ for student in students:
     assigned_courses = allocation[student.student_id]
     utility = student.utility(allocation)
     print(f"Student {student.student_id} assigned courses: {[course.course_id for course in assigned_courses]}, Utility: {utility}")
-
