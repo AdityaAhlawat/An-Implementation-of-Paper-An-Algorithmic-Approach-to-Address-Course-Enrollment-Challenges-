@@ -3,7 +3,7 @@ from .course import Course
 from .student import Student
 
 class Data:
-    def __init__(self, num_of_courses, num_of_students, total_school_time, uniform_credit_caps : bool = False, uniform_utilities : bool = False, uniform_utilities_1 : bool = False, uniform_course_lengths : bool = False):
+    def __init__(self, num_of_courses, num_of_students, total_school_time, uniform_credit_caps : bool = False, uniform_utilities : bool = False, uniform_utilities_1 : bool = False, uniform_course_lengths : bool = False, binary_preferences_per_student : bool = False):
         self.num_of_courses = num_of_courses
         self.num_of_students = num_of_students
         self.courses = []
@@ -32,6 +32,8 @@ class Data:
                 valuation_function = {course.course_id: 1 for course in self.courses}
             elif uniform_utilities:
                 valuation_function = {course.course_id: 3 for course in self.courses}  # Uniform utility for each course
+            elif binary_preferences_per_student:
+                valuation_function = {course.course_id: random.randint(0,1) for course in self.courses}
             else:
                 valuation_function = {course.course_id: random.randint(1, 5) for course in self.courses}  
             max_credits = 0

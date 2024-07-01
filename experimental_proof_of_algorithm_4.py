@@ -1,19 +1,20 @@
+#Algorithm 4 -> Maximizing Max-Min Objective 
+
+#Student should have binary preference for courses. Assume courses have credit 1 each (this is implemented generally in the paper)
+
 from classes.create_data import Data
-from implementations.algorithms import round_robin
+from implementations.algorithms import max_min_assignment_for_binary_utilities
 from implementations.checker import is_ef, is_ef1, is_efx, optimized_social_welfare
 
-# Experimental proof based on Theorem 12 -> EFX + Social Welfare Optimal when n students, unfirom credit caps, uniform utilities
-# Make sure student has a preference of 1 of every course to check this theorem
-
-# Generate data with uniform credit caps and uniform utilities
-data = Data(55, 70, 100, uniform_utilities=True, uniform_credit_caps=True, uniform_course_lengths=True)
+# Generate data
+data = Data(4, 5, 20, binary_preferences_per_student=True) 
 
 # Get students and courses
 students = data.get_students()
 courses = data.get_courses()
 
 # Perform round robin course assignment
-allocation = round_robin(students, courses)
+allocation = max_min_assignment_for_binary_utilities(students, courses)
 
 max_social_welfare = optimized_social_welfare(students, courses)
 
@@ -26,8 +27,8 @@ print("Is EF1:", is_ef1(allocation, students))
 print("Is EFX:", is_efx(allocation, students))
 print("Social Welfare: ", total_welfare)
 print("Is Social Welfare Optimal?: ", max_social_welfare == total_welfare)
-
 # Print the assignments and utility for each student
+
 for student in students:
     assigned_courses = allocation[student.student_id]
     utility = student.utility(allocation)

@@ -74,3 +74,41 @@ def optimized_social_welfare(students, courses):
     total_welfare = sum(student.utility(allocation) for student in students)
     
     return total_welfare
+
+#Too computationally expensive
+# def optimized_max_min_objective(students, courses):
+#     # Create a linear programming problem
+#     prob = pulp.LpProblem("MaximizeMinUtility", pulp.LpMaximize)
+    
+#     # Create a dictionary to hold the decision variables
+#     x = {}
+#     for student in students:
+#         for course in courses:
+#             x[(student.student_id, course.course_id)] = pulp.LpVariable(
+#                 f"x_{student.student_id}_{course.course_id}", cat='Binary')
+    
+#     # Create a variable to represent the minimum utility
+#     min_utility = pulp.LpVariable("min_utility", lowBound=0)
+    
+#     # Objective function: Maximize the minimum utility
+#     prob += min_utility
+    
+#     # Constraints
+#     for student in students:
+#         # Ensure the student's utility is at least min_utility
+#         prob += (pulp.lpSum(x[(student.student_id, course.course_id)] * student.valuation_function.get(course.course_id, 0)
+#                             for course in courses) >= min_utility, f"MinUtility_{student.student_id}")
+        
+#         # Ensure the total credits do not exceed the student's maximum credits
+#         prob += (pulp.lpSum(x[(student.student_id, course.course_id)] for course in courses) <= student.get_max_credits(),
+#                  f"CreditCap_{student.student_id}")
+    
+#     for course in courses:
+#         # Ensure the total seats allocated do not exceed the course's capacity
+#         prob += (pulp.lpSum(x[(student.student_id, course.course_id)] for student in students) <= course.get_seat_capacity(),
+#                  f"SeatCapacity_{course.course_id}")
+    
+#     # Solve the problem
+#     prob.solve()
+    
+#     return pulp.value(min_utility)
