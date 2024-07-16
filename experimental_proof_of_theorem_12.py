@@ -6,7 +6,7 @@ from implementations.checker import is_ef, is_ef1, is_efx, optimized_social_welf
 # Make sure student has a preference of 1 of every course to check this theorem
 
 # Generate data with uniform credit caps and uniform utilities
-data = Data(55, 70, 100, uniform_utilities=True, uniform_credit_caps=True, uniform_course_lengths=True)
+data = Data(142, 70, 100, uniform_utilities=True, uniform_credit_caps=True, uniform_course_lengths=True)
 
 # Get students and courses
 students = data.get_students()
@@ -31,4 +31,8 @@ print("Is Social Welfare Optimal?: ", max_social_welfare == total_welfare)
 for student in students:
     assigned_courses = allocation[student.student_id]
     utility = student.utility(allocation)
-    print(f"Student {student.student_id} assigned courses: {[course.course_id for course in assigned_courses]}, Utility: {utility}")
+    course_details = [
+        f"Course {course.course_id} (Start: {course.start_time}, End: {course.end_time})"
+        for course in assigned_courses
+    ]
+    print(f"Student {student.student_id} assigned courses: {course_details}, Utility: {utility}")

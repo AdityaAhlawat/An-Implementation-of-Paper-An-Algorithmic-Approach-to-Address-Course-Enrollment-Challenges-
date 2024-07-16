@@ -2,16 +2,19 @@
 import pulp 
 
 def is_ef(allocation, students):
+    ef_false_count = 0
     for student in students:
         own_utility = student.utility(allocation)
         for other_student in students:
             if student != other_student:
                 other_utility = sum(student.valuation_function.get(course.course_id, 0) for course in allocation[other_student.student_id])
                 if other_utility > own_utility:
-                    return False
-    return True
+                    ef_false_count += 1
+                    return False, ef_false_count
+    return True, ef_false_count
 
 def is_ef1(allocation, students):
+    ef1_false_count = 0
     for student in students:
         own_utility = student.utility(allocation)
         for other_student in students:
@@ -21,10 +24,12 @@ def is_ef1(allocation, students):
                     max_utility_item = max(other_allocation, key=lambda course: student.valuation_function.get(course.course_id, 0))
                     other_utility = sum(student.valuation_function.get(course.course_id, 0) for course in other_allocation) - student.valuation_function.get(max_utility_item.course_id, 0)
                     if other_utility > own_utility:
-                        return False
-    return True
+                        ef1_false_count += 1
+                        return False, ef1_false_count
+    return True, ef1_false_count
 
 def is_efx(allocation, students):
+    efx_false_count = 0
     for student in students:
         own_utility = student.utility(allocation)
         for other_student in students:
@@ -34,8 +39,9 @@ def is_efx(allocation, students):
                     min_utility_item = min(other_allocation, key=lambda course: student.valuation_function.get(course.course_id, 0))
                     other_utility = sum(student.valuation_function.get(course.course_id, 0) for course in other_allocation) - student.valuation_function.get(min_utility_item.course_id, 0)
                     if other_utility > own_utility:
-                        return False
-    return True
+                        efx_false_count += 1
+                        return False, efx_false_count
+    return True, efx_false_count
 
 #Efficency metrics
 def optimized_social_welfare(students, courses):

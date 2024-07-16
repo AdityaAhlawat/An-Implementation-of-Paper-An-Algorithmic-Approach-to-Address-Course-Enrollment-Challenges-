@@ -7,7 +7,7 @@ from implementations.algorithms import max_min_assignment_for_binary_utilities
 from implementations.checker import is_ef, is_ef1, is_efx, optimized_social_welfare
 
 # Generate data
-data = Data(4, 5, 20, binary_preferences_per_student=True) 
+data = Data(7, 3, 5, binary_preferences_per_student=True) 
 
 # Get students and courses
 students = data.get_students()
@@ -32,4 +32,8 @@ print("Is Social Welfare Optimal?: ", max_social_welfare == total_welfare)
 for student in students:
     assigned_courses = allocation[student.student_id]
     utility = student.utility(allocation)
-    print(f"Student {student.student_id} assigned courses: {[course.course_id for course in assigned_courses]}, Utility: {utility}")
+    course_details = [
+        f"Course {course.course_id} (Start: {course.start_time}, End: {course.end_time})"
+        for course in assigned_courses
+    ]
+    print(f"Student {student.student_id} assigned courses: {course_details}, Utility: {utility}")
